@@ -23,19 +23,19 @@ use Psr\Cache\CacheItemInterface;
  * Trait StandardPsr6StructureTrait
  * @package phpFastCache\Core
  */
-trait StandardPsr6StructureTrait
+abstract class StandardPsr6StructureTrait extends ClassNamespaceResolverTrait
 {
-    use ClassNamespaceResolverTrait;
+    //use ClassNamespaceResolverTrait;
 
     /**
      * @var array
      */
-    protected $deferredList = [];
+    protected $deferredList = array();
 
     /**
      * @var ExtendedCacheItemInterface[]
      */
-    protected $itemInstances = [];
+    protected $itemInstances = array();
 
     /**
      * @param string $key
@@ -52,8 +52,8 @@ trait StandardPsr6StructureTrait
                  * @var $item ExtendedCacheItemInterface
                  */
                 CacheManager::$ReadHits++;
-                $class = new \ReflectionClass((new \ReflectionObject($this))->getNamespaceName() . '\Item');
-                $item = $class->newInstanceArgs([$this, $key]);
+                $class = new \ReflectionClass(_phpfastcache_identity(new \ReflectionObject($this))->getNamespaceName() . '\Item');
+                $item = $class->newInstanceArgs(array($this, $key));
                 $driverArray = $this->driverRead($item);
 
                 if ($driverArray) {
@@ -77,7 +77,7 @@ trait StandardPsr6StructureTrait
                         $item->setHit(true);
                     }
                 } else {
-                    $item->expiresAfter(abs((int) $this->getConfig()[ 'defaultTtl' ]));
+                    $item->expiresAfter(abs((int) _phpfastcache_identity($this->getConfig(), 'defaultTtl')));
                 }
 
             }
@@ -109,9 +109,9 @@ trait StandardPsr6StructureTrait
      * @return CacheItemInterface[]
      * @throws \InvalidArgumentException
      */
-    public function getItems(array $keys = [])
+    public function getItems($keys = array())
     {
-        $collection = [];
+        $collection = array();
         foreach ($keys as $key) {
             $collection[ $key ] = $this->getItem($key);
         }
@@ -137,7 +137,7 @@ trait StandardPsr6StructureTrait
     public function clear()
     {
         CacheManager::$WriteHits++;
-        $this->itemInstances = [];
+        $this->itemInstances = array();
 
         return $this->driverClear();
     }

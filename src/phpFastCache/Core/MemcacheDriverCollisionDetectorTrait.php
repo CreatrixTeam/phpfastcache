@@ -5,7 +5,7 @@ namespace phpFastCache\Core;
  * Trait MemcacheDriverCollisionDetectorTrait
  * @package phpFastCache\Core
  */
-trait MemcacheDriverCollisionDetectorTrait
+class MemcacheDriverCollisionDetectorTrait
 {
     /**
      * @var string

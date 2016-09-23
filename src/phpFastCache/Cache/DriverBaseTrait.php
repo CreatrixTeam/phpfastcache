@@ -20,14 +20,14 @@ use phpFastCache\Exceptions\phpFastCacheDriverException;
  * Class DriverBaseTrait
  * @package phpFastCache\Cache
  */
-trait DriverBaseTrait
+abstract class DriverBaseTrait extends ExtendedCacheItemPoolTrait
 {
-    use ExtendedCacheItemPoolTrait;
+    //use ExtendedCacheItemPoolTrait;
 
     /**
      * @var array default options, this will be merge to Driver's Options
      */
-    protected $config = [];
+    protected $config = array();
 
     /**
      * @var bool
@@ -166,11 +166,11 @@ trait DriverBaseTrait
      */
     public function driverPreWrap(ExtendedCacheItemInterface $item)
     {
-        return [
+        return array(
           self::DRIVER_DATA_WRAPPER_INDEX => $item->get(),
           self::DRIVER_TIME_WRAPPER_INDEX => $item->getExpirationDate(),
           self::DRIVER_TAGS_WRAPPER_INDEX => $item->getTags(),
-        ];
+        );
     }
 
     /**
@@ -208,7 +208,7 @@ trait DriverBaseTrait
     {
         static $driverName;
 
-        return ($driverName ?: $driverName = ucfirst(substr(strrchr((new \ReflectionObject($this))->getNamespaceName(), '\\'), 1)));
+        return ($driverName ?: $driverName = ucfirst(substr(strrchr(_phpfastcache_identity(new \ReflectionObject($this))->getNamespaceName(), '\\'), 1)));
     }
 
     /**
@@ -242,7 +242,7 @@ trait DriverBaseTrait
              * that has slow performances
              */
 
-            $tagsItem->set(array_merge((array) $data, [$item->getKey() => $expTimestamp]));
+            $tagsItem->set(array_merge((array) $data, array($item->getKey() => $expTimestamp)));
 
             /**
              * Set the expiration date
@@ -330,7 +330,7 @@ trait DriverBaseTrait
      */
     public static function getRequiredOptions()
     {
-        return [];
+        return array();
     }
 
     /**
@@ -338,6 +338,6 @@ trait DriverBaseTrait
      */
     public static function getValidOptions()
     {
-        return [];
+        return array();
     }
 }

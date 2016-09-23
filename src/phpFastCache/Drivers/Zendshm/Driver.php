@@ -32,7 +32,7 @@ class Driver extends DriverAbstract
      * @param array $config
      * @throws phpFastCacheDriverException
      */
-    public function __construct(array $config = [])
+    public function __construct($config = array())
     {
         $this->setup($config);
 
@@ -132,14 +132,14 @@ class Driver extends DriverAbstract
     {
         if(function_exists('zend_shm_cache_info')) {
             $stats = (array)zend_shm_cache_info();
-            return (new driverStatistic())
+            return _phpfastcache_identity(new driverStatistic())
                 ->setData(implode(', ', array_keys($this->itemInstances)))
                 ->setInfo(sprintf("The Zend memory have %d item(s) in cache.\n For more information see RawData.", $stats['items_total']))
                 ->setRawData($stats)
                 ->setSize($stats['memory_total']);
         } else {
             /** zend_shm_cache_info supported V8 or higher */
-            return (new driverStatistic())
+            return _phpfastcache_identity(new driverStatistic())
                 ->setData(implode(', ', array_keys($this->itemInstances)))
                 ->setInfo("The Zend memory statistics is only supported by ZendServer V8 or higher")
                 ->setRawData(null)

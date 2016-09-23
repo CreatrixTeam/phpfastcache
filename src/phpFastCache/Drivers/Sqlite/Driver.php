@@ -18,7 +18,7 @@ use PDO;
 use PDOException;
 use phpFastCache\Cache\ExtendedCacheItemInterface;
 use phpFastCache\Core\DriverAbstract;
-use phpFastCache\Core\PathSeekerTrait;
+use phpFastCache\Core\PathSeekerTraitWithDriverAbstract;
 use phpFastCache\Core\StandardPsr6StructureTrait;
 use phpFastCache\Entities\driverStatistic;
 use phpFastCache\Exceptions\phpFastCacheDriverCheckException;
@@ -30,9 +30,9 @@ use Psr\Cache\CacheItemInterface;
  * Class Driver
  * @package phpFastCache\Drivers
  */
-class Driver extends DriverAbstract
+class Driver extends PathSeekerTraitWithDriverAbstract
 {
-    use PathSeekerTrait;
+    //use PathSeekerTrait;
 
     /**
      *
@@ -63,12 +63,14 @@ class Driver extends DriverAbstract
      */
     protected $indexing;
 
+	protected function getFILE_DIR(){return self::FILE_DIR;}
+
     /**
      * Driver constructor.
      * @param array $config
      * @throws phpFastCacheDriverException
      */
-    public function __construct(array $config = [])
+    public function __construct($config = array())
     {
         $this->setup($config);
 
@@ -185,9 +187,9 @@ class Driver extends DriverAbstract
 
         // look for keyword
         $stm = $this->indexing->prepare("SELECT * FROM `balancing` WHERE `keyword`=:keyword LIMIT 1");
-        $stm->execute([
+        $stm->execute(array(
           ':keyword' => $keyword,
-        ]);
+        ));
         $row = $stm->fetch(PDO::FETCH_ASSOC);
         if (isset($row[ 'db' ]) && $row[ 'db' ] != '') {
             $db = $row[ 'db' ];
@@ -197,10 +199,10 @@ class Driver extends DriverAbstract
              */
             $db = $this->currentDB;
             $stm = $this->indexing->prepare("INSERT INTO `balancing` (`keyword`,`db`) VALUES(:keyword, :db)");
-            $stm->execute([
+            $stm->execute(array(
               ':keyword' => $keyword,
               ':db' => $db,
-            ]);
+            ));
         }
 
         return $db;
@@ -271,11 +273,11 @@ class Driver extends DriverAbstract
                 try {
                     $stm = $this->getDb($item->getKey())
                       ->prepare("INSERT OR REPLACE INTO `caching` (`keyword`,`object`,`exp`) values(:keyword,:object,:exp)");
-                    $stm->execute([
+                    $stm->execute(array(
                       ':keyword' => $item->getKey(),
                       ':object' => $this->encode($this->driverPreWrap($item)),
                       ':exp' => time() + $item->getTtl(),
-                    ]);
+                    ));
 
                     return true;
                 } catch (\PDOException $e) {
@@ -283,11 +285,11 @@ class Driver extends DriverAbstract
                     try {
                         $stm = $this->getDb($item->getKey(), true)
                           ->prepare("INSERT OR REPLACE INTO `caching` (`keyword`,`object`,`exp`) values(:keyword,:object,:exp)");
-                        $stm->execute([
+                        $stm->execute(array(
                           ':keyword' => $item->getKey(),
                           ':object' => $this->encode($this->driverPreWrap($item)),
                           ':exp' => time() + $item->getTtl(),
-                        ]);
+                        ));
                     } catch (PDOException $e) {
                         return false;
                     }
@@ -309,18 +311,18 @@ class Driver extends DriverAbstract
         try {
             $stm = $this->getDb($item->getKey())
               ->prepare("SELECT * FROM `caching` WHERE `keyword`=:keyword LIMIT 1");
-            $stm->execute([
+            $stm->execute(array(
               ':keyword' => $item->getKey(),
-            ]);
+            ));
             $row = $stm->fetch(PDO::FETCH_ASSOC);
 
         } catch (PDOException $e) {
             try {
                 $stm = $this->getDb($item->getKey(), true)
                   ->prepare("SELECT * FROM `caching` WHERE `keyword`=:keyword LIMIT 1");
-                $stm->execute([
+                $stm->execute(array(
                   ':keyword' => $item->getKey(),
-                ]);
+                ));
                 $row = $stm->fetch(PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
                 return null;
@@ -349,10 +351,10 @@ class Driver extends DriverAbstract
                 $stm = $this->getDb($item->getKey())
                   ->prepare("DELETE FROM `caching` WHERE (`exp` <= :U) OR (`keyword`=:keyword) ");
 
-                return $stm->execute([
+                return $stm->execute(array(
                   ':keyword' => $item->getKey(),
                   ':U' => time(),
-                ]);
+                ));
             } catch (PDOException $e) {
                 return false;
             }
@@ -366,7 +368,7 @@ class Driver extends DriverAbstract
      */
     protected function driverClear()
     {
-        $this->instance = [];
+        $this->instance = array();
         $this->indexing = null;
 
         // delete everything before reset indexing
@@ -414,7 +416,7 @@ class Driver extends DriverAbstract
         }
 
         $stat->setData(implode(', ', array_keys($this->itemInstances)))
-          ->setRawData([])
+          ->setRawData(array())
           ->setSize(Directory::dirSize($path))
           ->setInfo('Number of files used to build the cache: ' . Directory::getFileCount($path));
 
@@ -426,6 +428,6 @@ class Driver extends DriverAbstract
      */
     public function __sleep()
     {
-        return array_diff(array_keys(get_object_vars($this)), ['indexing', 'instance']);
+        return array_diff(array_keys(get_object_vars($this)), array('indexing', 'instance'));
     }
 }

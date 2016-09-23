@@ -23,9 +23,9 @@ use phpFastCache\Drivers\Couchbase\Driver as CouchbaseDriver;
  * Class Item
  * @package phpFastCache\Drivers\Apc
  */
-class Item implements ExtendedCacheItemInterface
+class Item extends ItemBaseTrait implements ExtendedCacheItemInterface
 {
-    use ItemBaseTrait;
+    //use ItemBaseTrait;
 
     /**
      * Item constructor.

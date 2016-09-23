@@ -32,7 +32,7 @@ class Driver extends DriverAbstract
      * @param array $config
      * @throws phpFastCacheDriverException
      */
-    public function __construct(array $config = [])
+    public function __construct($config = array())
     {
         $this->setup($config);
 

@@ -33,7 +33,7 @@ class Driver extends DriverAbstract
      * @param array $config
      * @throws phpFastCacheDriverException
      */
-    public function __construct(array $config = [])
+    public function __construct($config = array())
     {
         $this->setup($config);
 
@@ -154,9 +154,9 @@ class Driver extends DriverAbstract
     {
         // used_memory
         $info = $this->instance->info();
-        $date = (new \DateTime())->setTimestamp(time() - $info[ 'uptime_in_seconds' ]);
+        $date = _phpfastcache_identity(new \DateTime())->setTimestamp(time() - $info[ 'uptime_in_seconds' ]);
 
-        return (new driverStatistic())
+        return _phpfastcache_identity(new driverStatistic())
           ->setData(implode(', ', array_keys($this->itemInstances)))
           ->setRawData($info)
           ->setSize($info[ 'used_memory' ])

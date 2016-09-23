@@ -7,7 +7,7 @@
 use phpFastCache\CacheManager;
 
 chdir(__DIR__);
-require_once __DIR__ . '/../src/autoload.php';
+//require_once __DIR__ . '/../src/autoload.php';
 
 $status = 0;
 echo "Testing autoload\n";

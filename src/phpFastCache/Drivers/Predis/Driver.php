@@ -38,7 +38,7 @@ class Driver extends DriverAbstract
      * @param array $config
      * @throws phpFastCacheDriverException
      */
-    public function __construct(array $config = [])
+    public function __construct($config = array())
     {
         $this->setup($config);
 
@@ -124,16 +124,16 @@ class Driver extends DriverAbstract
      */
     protected function driverConnect()
     {
-        $server = isset($this->config[ 'redis' ]) ? $this->config[ 'redis' ] : [
+        $server = isset($this->config[ 'redis' ]) ? $this->config[ 'redis' ] : array(
           'host' => '127.0.0.1',
           'port' => '6379',
           'password' => '',
           'database' => '',
-        ];
+        );
 
-        $config = [
+        $config = array(
           'host' => $server[ 'host' ],
-        ];
+        );
 
         $port = isset($server[ 'port' ]) ? $server[ 'port' ] : '';
         if ($port != '') {
@@ -179,9 +179,9 @@ class Driver extends DriverAbstract
         $info = $this->instance->info();
         $size = (isset($info['Memory']['used_memory']) ? $info['Memory']['used_memory'] : 0);
         $version = (isset($info['Server']['redis_version']) ? $info['Server']['redis_version'] : 0);
-        $date = (isset($info['Server'][ 'uptime_in_seconds' ]) ? (new \DateTime())->setTimestamp(time() - $info['Server'][ 'uptime_in_seconds' ]) : 'unknown date');
+        $date = (isset($info['Server'][ 'uptime_in_seconds' ]) ? _phpfastcache_identity(new \DateTime())->setTimestamp(time() - $info['Server'][ 'uptime_in_seconds' ]) : 'unknown date');
 
-        return (new driverStatistic())
+        return _phpfastcache_identity(new driverStatistic())
           ->setData(implode(', ', array_keys($this->itemInstances)))
           ->setRawData($this->instance->info())
           ->setSize($size)

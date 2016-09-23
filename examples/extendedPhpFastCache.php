@@ -24,7 +24,7 @@ use phpFastCache\Proxy\phpFastCacheAbstractProxy;
  */
 class extendedPhpFastCache extends FilesDriver
 {
-    public function __construct(array $config = [])
+    public function __construct($config = array())
     {
         $config[ 'path' ] = 'your/custom/path/where/files/will/be/written';
         parent::__construct($config);
@@ -42,7 +42,7 @@ class extendedPhpFastCache extends FilesDriver
  */
 class myCustomCacheClass extends phpFastCacheAbstractProxy
 {
-    public function __construct($driver = '', array $config = [])
+    public function __construct($driver = '', $config = array())
     {
         $config[ 'path' ] = 'your/custom/path/where/files/will/be/written';
         $driver = 'files';

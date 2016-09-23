@@ -125,12 +125,12 @@ class driverStatistic implements ArrayAccess
      */
     public function getPublicDesc()
     {
-        return[
+        return array(
             'Info' => 'Cache Information',
             'Size' => 'Cache Size',
             'Data' => 'Cache items keys',
             'RawData' => 'Cache raw data',
-        ];
+        );
     }
 
     /*****************

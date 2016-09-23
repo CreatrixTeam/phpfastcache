@@ -29,7 +29,10 @@ use Psr\Cache\CacheItemInterface;
  */
 class Driver extends DriverAbstract
 {
-    use MemcacheDriverCollisionDetectorTrait;
+    //use MemcacheDriverCollisionDetectorTrait;
+	protected static $driverUsed;
+	public static function checkCollision($driverName)
+		{return MemcacheDriverCollisionDetectorTrait::checkCollision($driverName);}
 
     /**
      * @var int
@@ -41,7 +44,7 @@ class Driver extends DriverAbstract
      * @param array $config
      * @throws phpFastCacheDriverException
      */
-    public function __construct(array $config = [])
+    public function __construct($config = array())
     {
         self::checkCollision('Memcache');
         $this->setup($config);
@@ -128,11 +131,11 @@ class Driver extends DriverAbstract
      */
     protected function driverConnect()
     {
-        $servers = (!empty($this->config[ 'memcache' ]) && is_array($this->config[ 'memcache' ]) ? $this->config[ 'memcache' ] : []);
+        $servers = (!empty($this->config[ 'memcache' ]) && is_array($this->config[ 'memcache' ]) ? $this->config[ 'memcache' ] : array());
         if (count($servers) < 1) {
-            $servers = [
-              ['127.0.0.1', 11211],
-            ];
+            $servers = array(
+              array('127.0.0.1', 11211),
+            );
         }
 
         foreach ($servers as $server) {
@@ -165,9 +168,9 @@ class Driver extends DriverAbstract
         $stats[ 'version' ] = (isset($stats[ 'version' ]) ? $stats[ 'version' ] : 'UnknownVersion');
         $stats[ 'bytes' ] = (isset($stats[ 'bytes' ]) ? $stats[ 'version' ] : 0);
         
-        $date = (new \DateTime())->setTimestamp(time() - $stats[ 'uptime' ]);
+        $date = _phpfastcache_identity(new \DateTime())->setTimestamp(time() - $stats[ 'uptime' ]);
 
-        return (new driverStatistic())
+        return _phpfastcache_identity(new driverStatistic())
           ->setData(implode(', ', array_keys($this->itemInstances)))
           ->setInfo(sprintf("The memcache daemon v%s is up since %s.\n For more information see RawData.", $stats[ 'version' ], $date->format(DATE_RFC2822)))
           ->setRawData($stats)

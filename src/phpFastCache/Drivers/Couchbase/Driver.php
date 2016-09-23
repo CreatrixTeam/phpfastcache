@@ -36,7 +36,7 @@ class Driver extends DriverAbstract
     /**
      * @var \CouchbaseBucket[]
      */
-    protected $bucketInstances = [];
+    protected $bucketInstances = array();
 
     /**
      * @var string
@@ -48,7 +48,7 @@ class Driver extends DriverAbstract
      * @param array $config
      * @throws phpFastCacheDriverException
      */
-    public function __construct(array $config = [])
+    public function __construct($config = array())
     {
         $this->setup($config);
 
@@ -78,7 +78,7 @@ class Driver extends DriverAbstract
          * Check for Cross-Driver type confusion
          */
         if ($item instanceof Item) {
-            return $this->getBucket()->upsert($item->getKey(), $this->encode($this->driverPreWrap($item)), ['expiry' => $item->getTtl()]);
+            return $this->getBucket()->upsert($item->getKey(), $this->encode($this->driverPreWrap($item)), array('expiry' => $item->getTtl()));
         } else {
             throw new \InvalidArgumentException('Cross-Driver type confusion detected');
         }
@@ -139,12 +139,12 @@ class Driver extends DriverAbstract
             //$port = isset($server[ 'port' ]) ? $server[ 'port' ] : '11211';
             $password = isset($this->config[ 'password' ]) ? $this->config[ 'password' ] : '';
             $username = isset($this->config[ 'username' ]) ? $this->config[ 'username' ] : '';
-            $buckets = isset($this->config[ 'buckets' ]) ? $this->config[ 'buckets' ] : [
-              [
+            $buckets = isset($this->config[ 'buckets' ]) ? $this->config[ 'buckets' ] : array(
+              array(
                 'bucket' => 'default',
                 'password' => '',
-              ],
-            ];
+              ),
+            );
 
             $this->instance = $this->instance ?: new CouchbaseClient("couchbase://{$host}", $username, $password);
 
@@ -190,7 +190,7 @@ class Driver extends DriverAbstract
     {
         $info = $this->getBucket()->manager()->info();
 
-        return (new driverStatistic())
+        return _phpfastcache_identity(new driverStatistic())
           ->setSize($info[ 'basicStats' ][ 'diskUsed' ])
           ->setRawData($info)
           ->setData(implode(', ', array_keys($this->itemInstances)))

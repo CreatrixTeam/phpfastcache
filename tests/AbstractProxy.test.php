@@ -10,7 +10,7 @@ use phpFastCache\Proxy\phpFastCacheAbstractProxy;
 
 
 chdir(__DIR__);
-require_once __DIR__ . '/../vendor/autoload.php';
+//require_once __DIR__ . '/../vendor/autoload.php';
 
 $status = 0;
 echo "Testing phpFastCacheAbstractProxy class\n";
@@ -22,7 +22,7 @@ echo "Testing phpFastCacheAbstractProxy class\n";
  */
 class CustomMemcachedCacheClass extends phpFastCacheAbstractProxy
 {
-    public function __construct($driver = '', array $config = [])
+    public function __construct($driver = '', $config = array())
     {
         $driver = 'Memcached';
         parent::__construct($driver, $config);

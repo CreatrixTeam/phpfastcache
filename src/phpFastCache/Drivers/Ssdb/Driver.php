@@ -40,7 +40,7 @@ class Driver extends DriverAbstract
      * @param array $config
      * @throws phpFastCacheDriverException
      */
-    public function __construct(array $config = [])
+    public function __construct($config = array())
     {
         $this->setup($config);
 
@@ -136,12 +136,12 @@ class Driver extends DriverAbstract
     protected function driverConnect()
     {
         try {
-            $server = isset($this->config[ 'ssdb' ]) ? $this->config[ 'ssdb' ] : [
+            $server = isset($this->config[ 'ssdb' ]) ? $this->config[ 'ssdb' ] : array(
               'host' => "127.0.0.1",
               'port' => 8888,
               'password' => '',
               'timeout' => 2000,
-            ];
+            );
 
             $host = $server[ 'host' ];
             $port = isset($server[ 'port' ]) ? (int) $server[ 'port' ] : 8888;

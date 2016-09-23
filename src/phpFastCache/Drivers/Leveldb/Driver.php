@@ -16,7 +16,7 @@ namespace phpFastCache\Drivers\Leveldb;
 
 use LevelDB as LeveldbClient;
 use phpFastCache\Core\DriverAbstract;
-use phpFastCache\Core\PathSeekerTrait;
+use phpFastCache\Core\PathSeekerTraitWithDriverAbstract;
 use phpFastCache\Core\StandardPsr6StructureTrait;
 use phpFastCache\Entities\driverStatistic;
 use phpFastCache\Exceptions\phpFastCacheDriverCheckException;
@@ -28,11 +28,13 @@ use Psr\Cache\CacheItemInterface;
  * Class Driver
  * @package phpFastCache\Drivers
  */
-class Driver extends DriverAbstract
+class Driver extends PathSeekerTraitWithDriverAbstract
 {
-    use PathSeekerTrait;
+    //use PathSeekerTrait;
 
     const LEVELDB_FILENAME = '.database';
+
+	protected function getFILE_DIR(){return self::FILE_DIR;}
 
     /**
      * @var LeveldbClient Instance of driver service
@@ -44,7 +46,7 @@ class Driver extends DriverAbstract
      * @param array $config
      * @throws phpFastCacheDriverException
      */
-    public function __construct(array $config = [])
+    public function __construct($config = array())
     {
         $this->setup($config);
 
@@ -158,7 +160,7 @@ class Driver extends DriverAbstract
      */
     public function getStats()
     {
-        return (new driverStatistic())
+        return _phpfastcache_identity(new driverStatistic())
           ->setData(implode(', ', array_keys($this->itemInstances)))
           ->setInfo('Number of files used to build the cache: ' . Directory::getFileCount($this->getLeveldbFile()))
           ->setSize(Directory::dirSize($this->getLeveldbFile()));

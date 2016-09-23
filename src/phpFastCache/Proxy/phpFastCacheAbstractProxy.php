@@ -61,7 +61,7 @@ abstract class phpFastCacheAbstractProxy
      * @param string $driver
      * @param array $config
      */
-    public function __construct($driver = 'auto', array $config = [])
+    public function __construct($driver = 'auto', $config = array())
     {
         $this->instance = CacheManager::getInstance($driver, $config);
     }
@@ -75,7 +75,7 @@ abstract class phpFastCacheAbstractProxy
     public function __call($name, $args)
     {
         if(method_exists($this->instance, $name)){
-            return call_user_func_array([$this->instance, $name], $args);
+            return call_user_func_array(array($this->instance, $name), $args);
         }else{
             throw new \BadMethodCallException(sprintf('Method %s does not exists', $name));
         }

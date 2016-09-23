@@ -31,7 +31,7 @@ class Driver extends DriverAbstract
      * @param array $config
      * @throws phpFastCacheDriverException
      */
-    public function __construct(array $config = [])
+    public function __construct($config = array())
     {
         $this->setup($config);
 
@@ -75,11 +75,11 @@ class Driver extends DriverAbstract
      */
     protected function driverRead(CacheItemInterface $item)
     {
-        return [
+        return array(
           self::DRIVER_DATA_WRAPPER_INDEX => false,
-          self::DRIVER_TAGS_WRAPPER_INDEX => [],
+          self::DRIVER_TAGS_WRAPPER_INDEX => array(),
           self::DRIVER_TIME_WRAPPER_INDEX => new \DateTime(),
-        ];
+        );
     }
     /**
      * @param \Psr\Cache\CacheItemInterface $item

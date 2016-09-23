@@ -16,7 +16,7 @@ namespace phpFastCache\Cache;
 
 use phpFastCache\Core\DriverAbstract;
 
-trait ItemBaseTrait
+abstract class ItemBaseTrait
 {
     /**
      * @var bool
@@ -46,12 +46,12 @@ trait ItemBaseTrait
     /**
      * @var array
      */
-    protected $tags = [];
+    protected $tags = array();
 
     /**
      * @var array
      */
-    protected $removedTags = [];
+    protected $removedTags = array();
 
     /**
      * @var bool
@@ -174,9 +174,9 @@ trait ItemBaseTrait
                  */
                 $time = 30 * 24 * 3600 * 5;
             }
-            $this->expirationDate = (new \DateTime())->add(new \DateInterval(sprintf('PT%dS', $time)));
+            $this->expirationDate = _phpfastcache_identity(new \DateTime())->add(new \DateInterval(sprintf('PT%dS', $time)));
         } else if ($time instanceof \DateInterval) {
-            $this->expirationDate = (new \DateTime())->add($time);
+            $this->expirationDate = _phpfastcache_identity(new \DateTime())->add($time);
         } else {
             throw new \InvalidArgumentException('Invalid date format');
         }
@@ -225,7 +225,7 @@ trait ItemBaseTrait
      */
     public function isExpired()
     {
-        return $this->expirationDate->getTimestamp() < (new \DateTime())->getTimestamp();
+        return $this->expirationDate->getTimestamp() < _phpfastcache_identity(new \DateTime())->getTimestamp();
     }
 
     /**
@@ -307,7 +307,7 @@ trait ItemBaseTrait
     public function addTag($tagName)
     {
         if (is_string($tagName)) {
-            $this->tags = array_unique(array_merge($this->tags, [$tagName]));
+            $this->tags = array_unique(array_merge($this->tags, array($tagName)));
 
             return $this;
         } else {
@@ -411,7 +411,7 @@ trait ItemBaseTrait
         if (is_object($data) || is_array($data)) {
             $data = json_encode($data, $option, $depth);
         } else {
-            $data = json_encode([$data], $option, $depth);
+            $data = json_encode(array($data), $option, $depth);
         }
 
         return json_encode($data, $option, $depth);

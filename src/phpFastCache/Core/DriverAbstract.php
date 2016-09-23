@@ -22,9 +22,9 @@ use Psr\Cache\CacheItemInterface;
  * Class DriverAbstract
  * @package phpFastCache\Core
  */
-abstract class DriverAbstract implements ExtendedCacheItemPoolInterface
+abstract class DriverAbstract extends DriverBaseTrait implements ExtendedCacheItemPoolInterface
 {
-    use DriverBaseTrait;
+    //use DriverBaseTrait;
 
     const DRIVER_CHECK_FAILURE      = '%s is not installed or is misconfigured, cannot continue.';
     const DRIVER_TAGS_KEY_PREFIX    = '_TAG_';

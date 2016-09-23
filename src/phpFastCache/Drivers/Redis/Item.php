@@ -23,9 +23,9 @@ use phpFastCache\Drivers\Redis\Driver as RedisDriver;
  * Class Item
  * @package phpFastCache\Drivers\Redis
  */
-class Item implements ExtendedCacheItemInterface
+class Item extends ItemBaseTrait implements ExtendedCacheItemInterface
 {
-    use ItemBaseTrait;
+    //use ItemBaseTrait;
 
     /**
      * Item constructor.

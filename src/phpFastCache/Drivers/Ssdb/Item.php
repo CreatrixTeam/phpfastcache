@@ -23,9 +23,9 @@ use phpFastCache\Drivers\Ssdb\Driver as SsdbDriver;
  * Class Item
  * @package phpFastCache\Drivers\Ssdb
  */
-class Item implements ExtendedCacheItemInterface
+class Item extends ItemBaseTrait implements ExtendedCacheItemInterface
 {
-    use ItemBaseTrait;
+    //use ItemBaseTrait;
 
     /**
      * Item constructor.

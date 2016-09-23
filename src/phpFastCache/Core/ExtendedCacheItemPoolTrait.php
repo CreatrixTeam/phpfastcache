@@ -18,9 +18,9 @@ use InvalidArgumentException;
 use phpFastCache\Cache\ExtendedCacheItemInterface;
 use Psr\Cache\CacheItemInterface;
 
-trait ExtendedCacheItemPoolTrait
+abstract class ExtendedCacheItemPoolTrait extends StandardPsr6StructureTrait
 {
-    use StandardPsr6StructureTrait;
+    //use StandardPsr6StructureTrait;
 
     /**
      * Deletes all items in the pool.
@@ -44,7 +44,7 @@ trait ExtendedCacheItemPoolTrait
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function getItemsAsJsonString(array $keys = [], $option = 0, $depth = 512)
+    public function getItemsAsJsonString($keys = array(), $option = 0, $depth = 512)
     {
         $callback = function(CacheItemInterface $item){
             return $item->get();
@@ -78,7 +78,7 @@ trait ExtendedCacheItemPoolTrait
                     return $item->isHit();
                 });
             } else {
-                return [];
+                return array();
             }
         } else {
             throw new InvalidArgumentException('$tagName must be a string');
@@ -92,7 +92,7 @@ trait ExtendedCacheItemPoolTrait
      */
     public function getItemsByTags(array $tagNames)
     {
-        $items = [];
+        $items = array();
         foreach (array_unique($tagNames) as $tagName) {
             $items = array_merge($items, $this->getItemsByTag($tagName));
         }

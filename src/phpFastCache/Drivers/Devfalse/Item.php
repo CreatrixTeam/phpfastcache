@@ -23,9 +23,9 @@ use phpFastCache\Drivers\Devnull\Driver as DevnullDriver;
  * Class Item
  * @package phpFastCache\Drivers\Devnull
  */
-class Item implements ExtendedCacheItemInterface
+class Item extends ItemBaseTrait implements ExtendedCacheItemInterface
 {
-    use ItemBaseTrait;
+    //use ItemBaseTrait;
 
     /**
      * Item constructor.

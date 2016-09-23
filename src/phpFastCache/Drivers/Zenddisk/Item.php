@@ -22,9 +22,9 @@ use phpFastCache\Drivers\Zenddisk\Driver as ZendDiskDriver;
  * Class Item
  * @package phpFastCache\Drivers\Zenddisk
  */
-class Item implements ExtendedCacheItemInterface
+class Item extends ItemBaseTrait implements ExtendedCacheItemInterface
 {
-    use ItemBaseTrait;
+    //use ItemBaseTrait;
 
     /**
      * Item constructor.

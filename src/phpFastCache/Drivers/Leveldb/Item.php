@@ -23,9 +23,9 @@ use phpFastCache\Drivers\Leveldb\Driver as LeveldbDriver;
  * Class Item
  * @package phpFastCache\Drivers\Leveldb
  */
-class Item implements ExtendedCacheItemInterface
+class Item extends ItemBaseTrait implements ExtendedCacheItemInterface
 {
-    use ItemBaseTrait;
+    //use ItemBaseTrait;
 
     /**
      * Item constructor.

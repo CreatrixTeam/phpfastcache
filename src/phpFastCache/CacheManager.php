@@ -56,7 +56,7 @@ class CacheManager
     /**
      * @var array
      */
-    protected static $config = [
+    protected static $config = array(
       'securityKey' => 'auto',// The securityKey that will be used to create sub-directory
       'defaultTtl' => 900,// Default time-to-live in second
       'htaccess' => true,// Auto-generate .htaccess if tit is missing
@@ -65,7 +65,7 @@ class CacheManager
       'fallback' => false, //Fall back when old driver is not support
       'limited_memory_each_object' => 4096, // maximum size (bytes) of object store in memory
       'compress_data' => false, // compress stored data, if the backend supports it
-    ];
+    );
 
     /**
      * @var string
@@ -75,16 +75,16 @@ class CacheManager
     /**
      * @var array
      */
-    protected static $instances = [];
+    protected static $instances = array();
 
     /**
      * @param string $driver
      * @param array $config
      * @return ExtendedCacheItemPoolInterface
      */
-    public static function getInstance($driver = 'auto', $config = [])
+    public static function getInstance($driver = 'auto', $config = array())
     {
-        static $badPracticeOmeter = [];
+        static $badPracticeOmeter = array();
 
         /**
          * @todo: Standardize a method for driver name
@@ -124,7 +124,7 @@ class CacheManager
      * @return string
      * @throws phpFastCacheDriverCheckException
      */
-    public static function getAutoClass($config = [])
+    public static function getAutoClass($config = array())
     {
         static $autoDriver;
 
@@ -149,7 +149,7 @@ class CacheManager
      */
     public static function __callStatic($name, $arguments)
     {
-        $options = (array_key_exists(0, $arguments) && is_array($arguments) ? $arguments[ 0 ] : []);
+        $options = (array_key_exists(0, $arguments) && is_array($arguments) ? $arguments[ 0 ] : array());
 
         return self::getInstance($name, $options);
     }
@@ -159,7 +159,7 @@ class CacheManager
      */
     public static function clearInstances()
     {
-        self::$instances = [];
+        self::$instances = array();
 
         gc_collect_cycles();
         return !count(self::$instances);
@@ -222,7 +222,7 @@ class CacheManager
      */
     public static function getStaticSystemDrivers()
     {
-        return [
+        return array(
           'Sqlite',
           'Files',
           'Apc',
@@ -240,7 +240,7 @@ class CacheManager
           'Zenddisk',
           'Zendshm',
           'Devnull',
-        ];
+        );
     }
 
     /**
@@ -248,11 +248,11 @@ class CacheManager
      */
     public static function getStaticAllDrivers()
     {
-        return array_merge(self::getStaticSystemDrivers(), [
+        return array_merge(self::getStaticSystemDrivers(), array(
             'Devtrue',
             'Devfalse',
             'Cookie',
-        ]);
+        ));
     }
 
     /**

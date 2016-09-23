@@ -49,3 +49,17 @@ if (class_exists('Composer\Autoload\ClassLoader')) {
     trigger_error('Your project already makes use of Composer. You SHOULD use the composer dependency "phpfastcache/phpfastcache" instead of hard-autoloading.',
       E_USER_WARNING);
 }
+
+if(!interface_exists('JsonSerializable'))
+{
+	interface JsonSerializable
+	{
+		public function jsonSerialize();
+	}
+}
+function _phpfastcache_identity($pInput, $pIndex = NULL)
+{
+	if($pIndex === NULL)
+		{return $pInput;}
+	return $pInput[$pIndex];
+}

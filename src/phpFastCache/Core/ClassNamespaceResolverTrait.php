@@ -18,7 +18,7 @@ namespace phpFastCache\Core;
  * Trait ClassNamespaceResolverTrait
  * @package phpFastCache\Core
  */
-trait ClassNamespaceResolverTrait
+abstract class ClassNamespaceResolverTrait
 {
     /**
      * @return string
@@ -28,7 +28,7 @@ trait ClassNamespaceResolverTrait
         static $namespace;
 
         if (!$namespace) {
-            $namespace = (new \ReflectionObject($this))->getNamespaceName();
+            $namespace = _phpfastcache_identity(new \ReflectionObject($this))->getNamespaceName();
         }
 
         return $namespace;

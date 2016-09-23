@@ -23,9 +23,9 @@ use phpFastCache\Drivers\Devtrue\Driver as DevtrueDriver;
  * Class Item
  * @package phpFastCache\Drivers\Devtrue
  */
-class Item implements ExtendedCacheItemInterface
+class Item extends ItemBaseTrait implements ExtendedCacheItemInterface
 {
-    use ItemBaseTrait;
+    //use ItemBaseTrait;
 
     /**
      * Item constructor.

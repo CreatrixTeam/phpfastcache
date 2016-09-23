@@ -23,9 +23,9 @@ use phpFastCache\Drivers\Apc\Driver as ApcDriver;
  * Class Item
  * @package phpFastCache\Drivers\Apc
  */
-class Item implements ExtendedCacheItemInterface
+class Item extends ItemBaseTrait implements ExtendedCacheItemInterface
 {
-    use ItemBaseTrait;
+    //use ItemBaseTrait;
 
     /**
      * Item constructor.

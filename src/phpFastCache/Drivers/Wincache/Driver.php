@@ -32,7 +32,7 @@ class Driver extends DriverAbstract
      * @param array $config
      * @throws phpFastCacheDriverException
      */
-    public function __construct(array $config = [])
+    public function __construct($config = array())
     {
         $this->setup($config);
 
@@ -127,9 +127,9 @@ class Driver extends DriverAbstract
     {
         $memInfo = wincache_ucache_meminfo();
         $info = wincache_ucache_info();
-        $date = (new \DateTime())->setTimestamp(time() - $info[ 'total_cache_uptime' ]);
+        $date = _phpfastcache_identity(new \DateTime())->setTimestamp(time() - $info[ 'total_cache_uptime' ]);
 
-        return (new driverStatistic())
+        return _phpfastcache_identity(new driverStatistic())
           ->setInfo(sprintf("The Wincache daemon is up since %s.\n For more information see RawData.", $date->format(DATE_RFC2822)))
           ->setSize($memInfo[ 'memory_free' ] - $memInfo[ 'memory_total' ])
           ->setData(implode(', ', array_keys($this->itemInstances)))

@@ -32,7 +32,7 @@ class Driver extends DriverAbstract
      * @param array $config
      * @throws phpFastCacheDriverException
      */
-    public function __construct(array $config = [])
+    public function __construct($config = array())
     {
         $this->setup($config);
 
@@ -131,9 +131,9 @@ class Driver extends DriverAbstract
     public function getStats()
     {
         $stats = (array) apc_cache_info('user');
-        $date = (new \DateTime())->setTimestamp($stats[ 'start_time' ]);
+        $date = _phpfastcache_identity(new \DateTime())->setTimestamp($stats[ 'start_time' ]);
 
-        return (new driverStatistic())
+        return _phpfastcache_identity(new driverStatistic())
           ->setData(implode(', ', array_keys($this->itemInstances)))
           ->setInfo(sprintf("The APC cache is up since %s, and have %d item(s) in cache.\n For more information see RawData.", $date->format(DATE_RFC2822),
             $stats[ 'num_entries' ]))

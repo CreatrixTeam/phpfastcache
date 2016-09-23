@@ -15,7 +15,7 @@
 namespace phpFastCache\Drivers\Files;
 
 use phpFastCache\Core\DriverAbstract;
-use phpFastCache\Core\PathSeekerTrait;
+use phpFastCache\Core\PathSeekerTraitWithDriverAbstract;
 use phpFastCache\Core\StandardPsr6StructureTrait;
 use phpFastCache\Entities\driverStatistic;
 use phpFastCache\Exceptions\phpFastCacheDriverCheckException;
@@ -27,9 +27,11 @@ use Psr\Cache\CacheItemInterface;
  * Class Driver
  * @package phpFastCache\Drivers
  */
-class Driver extends DriverAbstract
+class Driver extends PathSeekerTraitWithDriverAbstract
 {
-    use PathSeekerTrait;
+    //use PathSeekerTrait;
+
+	protected function getFILE_DIR(){return self::FILE_DIR;}
 
     /**
      *
@@ -41,7 +43,7 @@ class Driver extends DriverAbstract
      * @param array $config
      * @throws phpFastCacheDriverException
      */
-    public function __construct(array $config = [])
+    public function __construct($config = array())
     {
         $this->setup($config);
 
@@ -198,7 +200,7 @@ class Driver extends DriverAbstract
      */
     public static function getValidOptions()
     {
-        return ['path', 'default_chmod', 'securityKey', 'htaccess'];
+        return array('path', 'default_chmod', 'securityKey', 'htaccess');
     }
 
     /**
@@ -206,7 +208,7 @@ class Driver extends DriverAbstract
      */
     public static function getRequiredOptions()
     {
-        return ['path'];
+        return array('path');
     }
 
     /********************
@@ -230,7 +232,7 @@ class Driver extends DriverAbstract
         }
 
         $stat->setData(implode(', ', array_keys($this->itemInstances)))
-          ->setRawData([])
+          ->setRawData(array())
           ->setSize(Directory::dirSize($path))
           ->setInfo('Number of files used to build the cache: ' . Directory::getFileCount($path));
 

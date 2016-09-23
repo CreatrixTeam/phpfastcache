@@ -11,7 +11,7 @@ use Psr\Cache\CacheItemPoolInterface;
 
 
 chdir(__DIR__);
-require_once __DIR__ . '/../vendor/autoload.php';
+//require_once __DIR__ . '/../vendor/autoload.php';
 
 $status = 0;
 echo "Testing [a|de]ttaching methods\n";

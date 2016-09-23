@@ -23,9 +23,9 @@ use phpFastCache\Drivers\Cookie\Driver as CookieDriver;
  * Class Item
  * @package phpFastCache\Drivers\Apc
  */
-class Item implements ExtendedCacheItemInterface
+class Item extends ItemBaseTrait implements ExtendedCacheItemInterface
 {
-    use ItemBaseTrait;
+    //use ItemBaseTrait;
 
     /**
      * Item constructor.

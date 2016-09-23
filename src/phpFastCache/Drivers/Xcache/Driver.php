@@ -32,7 +32,7 @@ class Driver extends DriverAbstract
      * @param array $config
      * @throws phpFastCacheDriverException
      */
-    public function __construct(array $config = [])
+    public function __construct($config = array())
     {
         $this->setup($config);
 
@@ -133,7 +133,7 @@ class Driver extends DriverAbstract
         if (!ini_get('xcache.admin.enable_auth')) {
             $info = xcache_info(XC_TYPE_VAR, 0);
 
-            return (new driverStatistic())
+            return _phpfastcache_identity(new driverStatistic())
               ->setSize(abs($info[ 'size' ] - $info[ 'avail' ]))
               ->setData(implode(', ', array_keys($this->itemInstances)))
               ->setInfo(sprintf("Xcache v%s with following modules loaded:\n %s", XCACHE_VERSION, str_replace(' ', ', ', XCACHE_MODULES)))

@@ -72,7 +72,7 @@ interface ExtendedCacheItemPoolInterface extends CacheItemPoolInterface
      *   key is not found. However, if no keys are specified then an empty
      *   traversable MUST be returned instead.
      */
-    public function getItems(array $keys = []);
+    public function getItems($keys = array());
 
     /**
      * Returns A json string that represents an array of items.
@@ -88,7 +88,7 @@ interface ExtendedCacheItemPoolInterface extends CacheItemPoolInterface
      *
      * @return string
      */
-    public function getItemsAsJsonString(array $keys = [], $option = 0, $depth = 512);
+    public function getItemsAsJsonString($keys = array(), $option = 0, $depth = 512);
 
     /**
      * @param \Psr\Cache\CacheItemInterface $item

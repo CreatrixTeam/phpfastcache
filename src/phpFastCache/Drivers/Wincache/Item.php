@@ -23,9 +23,9 @@ use phpFastCache\Drivers\Wincache\Driver as WincacheDriver;
  * Class Item
  * @package phpFastCache\Drivers\Wincache
  */
-class Item implements ExtendedCacheItemInterface
+class Item extends ItemBaseTrait implements ExtendedCacheItemInterface
 {
-    use ItemBaseTrait;
+    //use ItemBaseTrait;
 
     /**
      * Item constructor.
