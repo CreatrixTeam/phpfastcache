@@ -39,6 +39,11 @@ abstract class DriverBaseTrait extends ExtendedCacheItemPoolTrait
      */
     protected $instance;
 
+	abstract protected function get_DRIVER_DATA_WRAPPER_INDEX();
+	abstract protected function get_DRIVER_TAGS_KEY_PREFIX();
+	abstract protected function get_DRIVER_TIME_WRAPPER_INDEX();
+	abstract protected function get_DRIVER_TAGS_WRAPPER_INDEX();
+
     /**
      * @param $keyword
      * @return string
@@ -167,9 +172,9 @@ abstract class DriverBaseTrait extends ExtendedCacheItemPoolTrait
     public function driverPreWrap(ExtendedCacheItemInterface $item)
     {
         return array(
-          self::DRIVER_DATA_WRAPPER_INDEX => $item->get(),
-          self::DRIVER_TIME_WRAPPER_INDEX => $item->getExpirationDate(),
-          self::DRIVER_TAGS_WRAPPER_INDEX => $item->getTags(),
+          $this->get_DRIVER_DATA_WRAPPER_INDEX() => $item->get(),
+          $this->get_DRIVER_TIME_WRAPPER_INDEX() => $item->getExpirationDate(),
+          $this->get_DRIVER_TAGS_WRAPPER_INDEX() => $item->getTags(),
         );
     }
 
@@ -179,7 +184,7 @@ abstract class DriverBaseTrait extends ExtendedCacheItemPoolTrait
      */
     public function driverUnwrapData(array $wrapper)
     {
-        return $wrapper[ self::DRIVER_DATA_WRAPPER_INDEX ];
+        return $wrapper[ $this->get_DRIVER_DATA_WRAPPER_INDEX() ];
     }
 
     /**
@@ -188,7 +193,7 @@ abstract class DriverBaseTrait extends ExtendedCacheItemPoolTrait
      */
     public function driverUnwrapTags(array $wrapper)
     {
-        return $wrapper[ self::DRIVER_TAGS_WRAPPER_INDEX ];
+        return $wrapper[ $this->get_DRIVER_TAGS_WRAPPER_INDEX() ];
     }
 
 
@@ -198,7 +203,7 @@ abstract class DriverBaseTrait extends ExtendedCacheItemPoolTrait
      */
     public function driverUnwrapTime(array $wrapper)
     {
-        return $wrapper[ self::DRIVER_TIME_WRAPPER_INDEX ];
+        return $wrapper[ $this->get_DRIVER_TIME_WRAPPER_INDEX() ];
     }
 
     /**
@@ -223,7 +228,7 @@ abstract class DriverBaseTrait extends ExtendedCacheItemPoolTrait
          * on tags item, it can leads
          * to an infinite recursive calls
          */
-        if(strpos($item->getKey(), self::DRIVER_TAGS_KEY_PREFIX ) === 0){
+        if(strpos($item->getKey(), $this->get_DRIVER_TAGS_KEY_PREFIX() ) === 0){
             throw new \LogicException('Trying to set tag(s) to an Tag item index: ' . $item->getKey());
         }
 
@@ -294,7 +299,7 @@ abstract class DriverBaseTrait extends ExtendedCacheItemPoolTrait
      */
     public function getTagKey($key)
     {
-        return self::DRIVER_TAGS_KEY_PREFIX . $key;
+        return $this->get_DRIVER_TAGS_KEY_PREFIX() . $key;
     }
 
     /**

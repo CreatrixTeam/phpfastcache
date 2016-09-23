@@ -128,11 +128,11 @@ abstract class ItemBaseTrait
      */
     public function expiresAt($expiration)
     {
-        if ($expiration instanceof \DateTimeInterface) {
+        //if ($expiration instanceof \DateTimeInterface) {
             $this->expirationDate = $expiration;
-        } else {
-            throw new \InvalidArgumentException('$expiration must be an object implementing the DateTimeInterface');
-        }
+        //} else {
+          //  throw new \InvalidArgumentException('$expiration must be an object implementing the DateTimeInterface');
+        //}
 
         return $this;
     }

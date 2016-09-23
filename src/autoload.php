@@ -20,7 +20,7 @@ define('PFC_BIN_DIR', __DIR__ . '/../bin/');
  */
 spl_autoload_register(function ($entity) {
     $module = explode('\\', $entity, 2);
-    if (!in_array($module[ 0 ], ['phpFastCache', 'Psr'])) {
+    if (!in_array($module[ 0 ], array('phpFastCache', 'Psr'))) {
         /**
          * Not a part of phpFastCache file
          * then we return here.

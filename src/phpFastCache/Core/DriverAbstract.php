@@ -32,6 +32,11 @@ abstract class DriverAbstract extends DriverBaseTrait implements ExtendedCacheIt
     const DRIVER_TIME_WRAPPER_INDEX = 't';
     const DRIVER_TAGS_WRAPPER_INDEX = 'g';
 
+	protected function get_DRIVER_TAGS_KEY_PREFIX(){return self::DRIVER_TAGS_KEY_PREFIX;}
+	protected function get_DRIVER_DATA_WRAPPER_INDEX(){return self::DRIVER_DATA_WRAPPER_INDEX;}
+	protected function get_DRIVER_TIME_WRAPPER_INDEX(){return self::DRIVER_TIME_WRAPPER_INDEX;}
+	protected function get_DRIVER_TAGS_WRAPPER_INDEX(){return self::DRIVER_TAGS_WRAPPER_INDEX;}
+
     /**
      * @param \Psr\Cache\CacheItemInterface $item
      * @return array [
